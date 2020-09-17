@@ -158,6 +158,8 @@
 .add-task{
      color: gray!important;
      transition: 0.4s;
+     display:block;
+     margin-top:15px;
 }
 .add-task:hover{
      color: #3d3d3d!important;

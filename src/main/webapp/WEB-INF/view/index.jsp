@@ -26,7 +26,7 @@
                <!-- /sidebar -->
                <div class="content">
                     <h1 class="title">
-                         Today <span class="today">Thứ ba, 15/9</span>
+                         Today <span class="today"></span>
                     </h1>
                     <div class="view-content">
                          <div class="inner-content">
@@ -98,17 +98,17 @@
                                    </li>
 
                               </ul>
-                              <a href="javascript(0)" data-toggle="modal" data-target="#exampleModal" class="add-task">
+                              <a href="javascript(0)" data-toggle="modal" data-target="#addModal" class="add-task">
                                    <i class="mr-2 glyph-icon flaticon-plus"></i>Add task</a>
                          </div>
                     </div>
                </div>
           </div>
           <!-- Modal -->
-          <div class="modal fade" style="z-index: 99999;padding: 0;" id="exampleModal" tabindex="-1"
-               aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" style="z-index: 99999;padding: 0;" id="addModal" tabindex="-1"
+               aria-labelledby="addModal" aria-hidden="true">
                <div class="modal-dialog">
-                    <form action="" class="custom-form">
+                    <form action="" class="custom-form add-todo">
                          <div class="modal-content">
                               <div class="modal-title">
                                    <span>Add task</span>
@@ -119,28 +119,28 @@
                               </div>
                               <div class="modal-body">
                                    <div class="form-group">
-                                        <label for="">Todo Name: <small class="text-danger">*</small></label>
-                                        <input type="text">
+                                        <label for="todoName">Todo Name: <small class="text-danger">*</small></label>
+                                        <input type="text" name="name" id="name">
                                    </div>
                                    <div class="form-group">
-                                        <label for="">Description: <small class="text-danger">*</small></label>
-                                        <textarea name="" id="" cols="10" rows="3"></textarea>
+                                        <label for="todoDesc">Description: <small class="text-danger">*</small></label>
+                                        <textarea name="description"  id="desc" cols="10" rows="3" ></textarea>
                                    </div>
                                    <div class="form-group">
                                         <label for="">Priority: <small class="text-danger">*</small></label>
-                                        <select name="" id="">
-                                             <option value="">Normal</option>
-                                             <option value="">Medium</option>
-                                             <option value="">High</option>
+                                        <select name="priority">
+                                             <option value="0">Normal</option>
+                                             <option value="1">Medium</option>
+                                             <option value="2">High</option>
                                         </select>
                                    </div>
                                    <div class="form-group">
-                                        <label for="">Due: <small class="text-danger">*</small></label>
-                                        <input type="date">
+                                        <label for="todoDue">Due: <small class="text-danger">*</small></label>
+                                        <input type="datetime-local" name="due" id="due">
                                    </div>
                               </div>
                               <div class="modal-bot text-right">
-                                   <button type="submit" class="button">Add task</button>
+                                   <button type="button" class="button" id="addTodo">Add task</button>
                               </div>
                          </div>
                     </form>
@@ -149,4 +149,45 @@
      </div>
 </body>
 <c:import url="/WEB-INF/view/layout/js.jsp"></c:import>
+<script type="text/javascript">
+	function getJsonFromData(data){
+		var json = {};
+		for(var item of data){
+			json[item.name] = item.value;
+		}
+		return json;
+	}
+	function checkEmpty(){
+		if($("#name").val().trim() == ""){
+    		$("#name").attr("style", "border: 1px solid red");
+    	}else $("#name").removeAttr("style");
+    	if($("#desc").val().trim() == ""){
+    		$("#desc").attr("style", "border: 1px solid red");
+    	}else $("#desc").removeAttr("style");
+    	if($("#due").val().trim() == ""){
+    		$("#due").attr("style", "border: 1px solid red");
+    	}else $("#due").removeAttr("style");
+    	return true;
+	}
+	$(document).ready(function () {
+	    $("#addTodo").on("click", function(){
+	    	if(!checkEmpty()) return;
+	    	var data = $("form.add-todo").serializeArray();
+	    	$.ajax({
+	    		url: "/api/add-todo",
+	    		type: "POST",
+	    		data: getJsonFromData(data),
+	    		contentType: "application/json",
+	    		dataType: "json",
+	    		success: function(response){
+	    			
+	    		},
+	    		error: function(err){
+	    			console.log(err);
+	    		}
+	    	})
+	    })
+	});
+
+</script>
 </html>

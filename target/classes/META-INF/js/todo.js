@@ -18,32 +18,75 @@ function checkEmpty(){
 	return true;
 }
 
+function editTodo(id){
+	$("#saveTodo").load(location.origin + "/edit-todo/"+ id);
+	$("#saveModal").modal("show");
+}
+function addTodo(){
+	$("#saveTodo").load(location.origin + "/add-todo");
+	$("#saveModal").modal("show");
+}
+function deleteTodo(id){
+	if(confirm("Bạn có chắc chắn muốn xóa?")){
+		$.ajax({
+			url: "/api/delete-todo/"+id,
+			type: "DELETE",
+			dataType: "json",
+			success: function(response){
+				if(response.status){
+					todoViewer();
+				}
+			},
+			error: function(err){
+				console.log(err);
+			}
+		})
+	}
+}
+
+function saveTodo(){
+	if(!checkEmpty()) return;
+	var data = $("form.add-todo").serializeArray();
+	console.log(getJsonFromData(data));
+	$.ajax({
+		url: "/api/save-todo",
+		type: "POST",
+		data: JSON.stringify(getJsonFromData(data)),
+		contentType: "application/json",
+		dataType: "json",
+		success: function(response){
+			if(response.status){
+				todoViewer();
+				$("input[type='text']").val("");
+				$("textarea").val("");
+				$("#saveModal").modal("hide");
+			}
+		},
+		error: function(err){
+			console.log(err);
+		}
+	})
+}
+
+function toggleCompleted(id){
+	$.ajax({
+		url: "/api/completed/"+id,
+		type: "POST",
+		dataType: "json",
+		success: function(response){
+			if(response.status){
+				todoViewer();
+			}
+		},
+		error: function(err){
+			console.log(err);
+		}
+	})
+}
 
 var todoViewer = () =>{
 	$("#todo-view").load(location.origin + "/todo-viewer");
 }
 $(document).ready(function () {
 	todoViewer();
-    $("#addTodo").on("click", function(){
-    	if(!checkEmpty()) return;
-    	var data = $("form.add-todo").serializeArray();
-    	console.log(getJsonFromData(data));
-    	$.ajax({
-    		url: "/api/add-todo",
-    		type: "POST",
-    		data: JSON.stringify(getJsonFromData(data)),
-    		contentType: "application/json",
-    		dataType: "json",
-    		success: function(response){
-    			if(response.status){
-    				todoViewer();
-    				$("input[type='text']").val("");
-    				$("#addModal").modal("hide");
-    			}
-    		},
-    		error: function(err){
-    			console.log(err);
-    		}
-    	})
-    })
 });

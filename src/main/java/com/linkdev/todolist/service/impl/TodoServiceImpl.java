@@ -17,13 +17,41 @@ public class TodoServiceImpl implements TodoService {
 	
 	@Override
 	public void save(Todo todo) {
-		todo.setCreatedDate(LocalDateTime.now());
+		if(todo.getId() != null) {
+			Todo todoInDB = todoRepository.findById(todo.getId()).get();
+			todo.setCreatedDate(todoInDB.getCreatedDate());
+			todo.setUpdatedDate(LocalDateTime.now());
+		}else {
+			todo.setCreatedDate(LocalDateTime.now());
+			todo.setCompleteStatus(false);
+		}
 		todoRepository.save(todo);
 	}
 
 	@Override
 	public List<Todo> getAllTodos() {
 		return todoRepository.findAll();
+	}
+
+	@Override
+	public Todo getTodoById(Integer id) {
+		return todoRepository.findById(id).get();
+	}
+
+	@Override
+	public void delete(Integer id) {
+		todoRepository.deleteById(id);
+	}
+
+	@Override
+	public void toggleCompletedTodo(Integer id) {
+		Todo todoInDB = todoRepository.findById(id).get();
+		if(todoInDB.getCompleteStatus()) {
+			todoInDB.setCompleteStatus(false);
+		}else {
+			todoInDB.setCompleteStatus(true);
+		}
+		todoRepository.save(todoInDB);
 	}
 
 }

@@ -26,7 +26,7 @@
                <!-- /sidebar -->
                <div class="content">
                     <h1 class="title">
-                         Today <span class="today">Thứ ba, 15/9</span>
+                         Today <span class="today"></span>
                     </h1>
                     <div class="view-content">
                          <div class="inner-content">

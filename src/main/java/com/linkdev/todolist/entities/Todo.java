@@ -20,7 +20,10 @@ public class Todo extends BaseEntity{
 	
 	@Column(name = "due", nullable = false)
 	private LocalDateTime due;
-
+	
+	@Column(name = "complete_status")
+	private Boolean completeStatus;
+	
 	public String getName() {
 		return name;
 	}
@@ -52,5 +55,12 @@ public class Todo extends BaseEntity{
 	public void setDue(LocalDateTime due) {
 		this.due = due;
 	}
-	
+
+	public Boolean getCompleteStatus() {
+		return completeStatus;
+	}
+
+	public void setCompleteStatus(Boolean completeStatus) {
+		this.completeStatus = completeStatus;
+	}
 }

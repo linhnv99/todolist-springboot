@@ -26,7 +26,7 @@
                <!-- /sidebar -->
                <div class="content" id="profile">
                     <!-- <h1 class="title">
-                         Profile <span class="today">Thứ ba, 15/9</span>
+                         Profile <span class="today"></span>
                     </h1> -->
                     <div class="view-content">
                          <div class="inner-content">

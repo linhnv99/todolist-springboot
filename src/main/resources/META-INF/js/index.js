@@ -46,4 +46,26 @@ $(document).ready(function () {
           }
           console.log($(this))
      })
+     
+//     show date
+     var d = new Date();
+     var mydate = "";
+     switch(d.getDay()){
+	     case 0:
+	     	mydate += "Chủ nhật";break;
+	     case 1:
+	    	mydate += "Thứ hai";break;
+	     case 2:
+	    	 mydate += "Thứ ba";break;
+	     case 3: 
+	    	 mydate += "Thứ tư";break;
+	     case 4: 
+	    	 mydate += "Thứ năm";break;
+	     case 5:
+	    	 mydate += "Thứ sáu";break;
+	     case 6:
+	    	 mydate += "Thứ bảy";break;
+	     default: mydate = "";
+     }
+     $(".today").html(mydate +", "+ d.getDate() + "/" + (d.getMonth()+1));
 });

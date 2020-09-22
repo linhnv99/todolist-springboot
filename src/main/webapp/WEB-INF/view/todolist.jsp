@@ -50,6 +50,7 @@
 				</div>
 			</div>
 		</div>
+		<!-- /Modal -->
 	</div>
 </body>
 <c:import url="/WEB-INF/view/layout/js.jsp"></c:import>

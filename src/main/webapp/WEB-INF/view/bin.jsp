@@ -26,12 +26,11 @@
 			<!-- /sidebar -->
 			<div class="content">
 				<h1 class="title">
-					Today <span class="today"></span>
+					Bin <span class="today"></span>
 				</h1>
 				<div class="view-content">
 					<div class="inner-content">
-						<ul class=" list-group list-group-flush" id="home-todo-view">
-
+						<ul class=" list-group list-group-flush" id="bin-todo-view">
 
 						</ul>
 					</div>
@@ -43,7 +42,9 @@
 			id="saveModal" tabindex="-1" aria-labelledby="saveModal"
 			aria-hidden="true">
 			<div class="modal-dialog">
-				<div class="modal-content" id="saveTodo"></div>
+				<div class="modal-content" id="saveTodo">
+					
+				</div>
 			</div>
 		</div>
 		<!-- /Modal -->

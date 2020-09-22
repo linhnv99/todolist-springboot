@@ -27,7 +27,7 @@ function addTodo(){
 	$("#saveModal").modal("show");
 }
 function deleteTodo(id){
-	if(confirm("Bạn có chắc chắn muốn xóa?")){
+	if(confirm("Bạn có chắc chắn muốn xóa khỏi thùng rác? (Lưu ý: không thể khôi phục lại).")){
 		$.ajax({
 			url: "/api/delete-todo/"+id,
 			type: "DELETE",
@@ -43,6 +43,31 @@ function deleteTodo(id){
 		})
 	}
 }
+
+function pushInTrash(id, act){
+	var cfm;
+	if(act == 'restoreFromTrash')
+		cfm = confirm("Bạn có chắc chắn muốn khôi phục?");
+	else 
+		cfm = confirm("Bạn có chắc chắn muốn đưa vào thùng rác?");
+	
+	if(cfm){
+		$.ajax({
+			url: "/api/put-in-trash/"+id,
+			type: "PUT",
+			dataType: "json",
+			success: function(response){
+				if(response.status){
+					todoViewer();
+				}
+			},
+			error: function(err){
+				console.log(err);
+			}
+		})
+	}
+}
+
 
 function saveTodo(){
 	if(!checkEmpty()) return;
@@ -86,7 +111,10 @@ function toggleCompleted(id){
 
 var todoViewer = () =>{
 	$("#todo-view").load(location.origin + "/todo-viewer");
+	$("#home-todo-view").load(location.origin+"/home-todo-viewer");
+	$("#bin-todo-view").load(location.origin+"/bin-todo-viewer");
 }
+
 $(document).ready(function () {
 	todoViewer();
 });

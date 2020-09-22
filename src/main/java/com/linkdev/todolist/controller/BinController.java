@@ -1,7 +1,5 @@
 package com.linkdev.todolist.controller;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,19 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.linkdev.todolist.service.TodoService;
 
 @Controller
-public class HomeController extends BaseController{
+public class BinController {
 	@Autowired
 	private TodoService todoService;
 
-	@GetMapping("/")
+	@GetMapping("/bin")
 	public String index(ModelMap model) {
-		return "index";
+		return "bin";
 	}
 	
-	@GetMapping("/home-todo-viewer")
+	@GetMapping("/bin-todo-viewer")
 	public String loadTodobyToday(ModelMap model) {
-		model.addAttribute("todos", todoService.getAllTodosByToday(LocalDate.now()));
+		model.addAttribute("bin", true);
+		model.addAttribute("todos", todoService.getAllTodosFromBin());
 		return "todo-viewer";
 	}
-	
 }

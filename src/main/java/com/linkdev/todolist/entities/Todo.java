@@ -7,23 +7,26 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="todo")
-public class Todo extends BaseEntity{
+@Table(name = "todo")
+public class Todo extends BaseEntity {
 	@Column(name = "name", nullable = false)
 	private String name;
-	
+
 	@Column(name = "priority", nullable = false)
 	private Integer priority;
-	
+
 	@Column(name = "description", columnDefinition = "text")
 	private String description;
-	
+
 	@Column(name = "due", nullable = false)
 	private LocalDateTime due;
-	
+
 	@Column(name = "complete_status")
 	private Boolean completeStatus;
-	
+
+	@Column(name = "late")
+	private Boolean late;
+
 	public String getName() {
 		return name;
 	}
@@ -62,5 +65,13 @@ public class Todo extends BaseEntity{
 
 	public void setCompleteStatus(Boolean completeStatus) {
 		this.completeStatus = completeStatus;
+	}
+
+	public Boolean getLate() {
+		return late;
+	}
+
+	public void setLate(Boolean late) {
+		this.late = late;
 	}
 }

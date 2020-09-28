@@ -61,7 +61,7 @@ public class TodoController extends BaseController {
 
 	@DeleteMapping("/api/delete-todo/{id}")
 	public ResponseEntity<AjaxResponse> deleteTodo(ModelMap model, @PathVariable("id") Integer id) {
-		todoService.delete(id);
+		todoService.deleteTodoById(id);
 		return ResponseEntity.ok(new AjaxResponse(true, "SUCCESS"));
 	}
 

@@ -10,9 +10,16 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
 @Table(name = "role")
-public class Role extends BaseEntity {
+public class Role extends BaseEntity implements GrantedAuthority{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "roles")
 	private List<User> users = new ArrayList<User>();
 
@@ -36,6 +43,11 @@ public class Role extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String getAuthority() {
+		return this.name;
 	}
 
 }

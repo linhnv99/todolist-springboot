@@ -6,16 +6,48 @@ import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.linkdev.todolist.entities.Todo;
+import com.linkdev.todolist.entities.User;
 import com.linkdev.todolist.repositories.TodoRepository;
 import com.linkdev.todolist.service.TodoService;
+import com.linkdev.todolist.service.UserService;
 
 @Service
 public class TodoServiceImpl implements TodoService {
 	@Autowired
 	private TodoRepository todoRepository;
+	@Autowired
+	private UserService userService;
+
+	public User userLogin() {
+		User user = null;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			User u = (User) authentication.getPrincipal();
+			user = userService.findUserByEmail(u.getEmail());
+		}
+		return user;
+	}
+
+	@Override
+	public List<Todo> getAllTodosByToday(LocalDate now) {
+		return todoRepository.getAllTodosByToday(now, userLogin().getId());
+	}
+
+	@Override
+	public List<Todo> getAllTodos() {
+		return todoRepository.getAllTodosByUserLogin(userLogin().getId());
+	}
+
+	@Override
+	public List<Todo> getAllTodosFromBin() {
+		return todoRepository.getAllTodosFromBinByUserLogin(userLogin().getId());
+	}
 
 	@Override
 	public void save(Todo todo) {
@@ -36,12 +68,8 @@ public class TodoServiceImpl implements TodoService {
 			todo.setCompleteStatus(false);
 			todo.setStatus(true);
 		}
+		todo.setUser(userLogin());
 		todoRepository.save(todo);
-	}
-
-	@Override
-	public List<Todo> getAllTodos() {
-		return todoRepository.getAllTodos();
 	}
 
 	@Override
@@ -50,16 +78,16 @@ public class TodoServiceImpl implements TodoService {
 	}
 
 	@Override
-	public void delete(Integer id) {
-		todoRepository.deleteById(id);
+	public void deleteTodoById(Integer id) {
+		todoRepository.deleteTodoById(id);
 	}
 
 	@Override
 	public void pushInTrash(Integer id) {
 		Todo todoInDB = todoRepository.findById(id).get();
-		if(todoInDB.getStatus()) {
+		if (todoInDB.getStatus()) {
 			todoInDB.setStatus(false);
-		}else {
+		} else {
 			todoInDB.setStatus(true);
 		}
 		todoRepository.save(todoInDB);
@@ -74,11 +102,6 @@ public class TodoServiceImpl implements TodoService {
 			todoInDB.setCompleteStatus(true);
 		}
 		todoRepository.save(todoInDB);
-	}
-
-	@Override
-	public List<Todo> getAllTodosByToday(LocalDate now) {
-		return todoRepository.getAllTodosByToday(now);
 	}
 
 	@Override
@@ -103,11 +126,6 @@ public class TodoServiceImpl implements TodoService {
 
 	private long toEpochMilli(LocalDateTime localDateTime) {
 		return localDateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-	}
-
-	@Override
-	public List<Todo> getAllTodosFromBin() {
-		return todoRepository.getAllTodosFromBin();
 	}
 
 }

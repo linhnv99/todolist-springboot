@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.linkdev.todolist.service.TodoService;
 
 @Controller
-public class BinController {
+public class BinController extends BaseController{
 	@Autowired
 	private TodoService todoService;
 

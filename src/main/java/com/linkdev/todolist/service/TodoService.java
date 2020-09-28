@@ -6,21 +6,22 @@ import java.util.List;
 import com.linkdev.todolist.entities.Todo;
 
 public interface TodoService {
-	void save(Todo todo);
+	List<Todo> getAllTodosByToday(LocalDate now);
 
 	List<Todo> getAllTodos();
 
+	List<Todo> getAllTodosFromBin();
+
+	void save(Todo todo);
+
 	Todo getTodoById(Integer id);
 
-	void delete(Integer id);
+	void deleteTodoById(Integer id);
 
 	void toggleCompletedTodo(Integer id);
 
-	List<Todo> getAllTodosByToday(LocalDate now);
-	
 	void isLated();
 
 	void pushInTrash(Integer id);
 
-	List<Todo> getAllTodosFromBin();
 }

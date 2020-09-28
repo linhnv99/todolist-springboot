@@ -13,7 +13,7 @@ import com.linkdev.todolist.service.TodoService;
 public class HomeController extends BaseController{
 	@Autowired
 	private TodoService todoService;
-
+	
 	@GetMapping("/")
 	public String index(ModelMap model) {
 		return "index";
@@ -25,4 +25,8 @@ public class HomeController extends BaseController{
 		return "todo-viewer";
 	}
 	
+	@GetMapping("/login")
+	public String login(ModelMap model) {
+		return "login";
+	}
 }

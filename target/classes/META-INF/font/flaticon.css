@@ -46,5 +46,5 @@
 .flaticon-search:before { content: "\f10c"}
 .flaticon-home:before { content: "\f10d";  margin-right: 12px;font-size: 18px;}
 .flaticon-login:before { content: "\f10e"; }
-.flaticon-logout:before { content: "\f10f"; }
+.flaticon-logout:before { content: "\f10f"; font-weight: bold;}
 .flaticon-edit:before { content: "\f110"; }
